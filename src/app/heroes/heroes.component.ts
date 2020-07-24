@@ -7,10 +7,6 @@ import { Hero } from '../hero';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
-  hero: Hero = { // 类成员变量，状态
-    id: 1,
-    name: 'Windstorm'
-  };
   heroes:Hero[] = HEROES;
 
   selectedHero: Hero;
