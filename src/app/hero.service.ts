@@ -23,7 +23,7 @@ export class HeroService {
   
   private heroesUrl = 'api/heroes';  // URL to web api
 
-  getHeroes(): Observable<Hero[]> {
+  getHeroes(): Observable<Hero[]> { // Observable<T> 代表泛型类
     this.log('fetched heroes');
     return this.http.get<Hero[]>(this.heroesUrl)  // http请求
       .pipe(
@@ -31,9 +31,13 @@ export class HeroService {
       );
   }
 
+
   getHero(id: number): Observable<Hero> {
-    this.log(`fetched hero id=${id}`);
-    return of(HEROES.find(hero => hero.id === id));
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero>(url).pipe(
+      tap(_ => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
+    );
   }
 
   private log(message: string) {
