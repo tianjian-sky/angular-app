@@ -65,6 +65,9 @@ export class HeroService {
     const id = typeof hero === 'number' ? hero : hero.id;
     const url = `${this.heroesUrl}/${id}`;
 
+    // this.heroes = this.heroes.filter(h => h !== hero);
+    // this.heroService.deleteHero(hero).subscribe();
+
     return this.http.delete<Hero>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted hero id=${id}`)),
       catchError(this.handleError<Hero>('deleteHero'))
