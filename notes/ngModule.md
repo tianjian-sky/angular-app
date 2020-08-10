@@ -18,44 +18,43 @@ Angular 应用就是由一组 NgModule 定义出的。 应用至少会有一个�
 
 
 ``` javascript
-import { Component, OnInit } from '@angular/core';
-import { Subject, of, Scheduler, Observable } from 'rxjs';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 
-import 'rxjs/add/observable/of'
-import 'rxjs/add/operator/concatMap'
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HeroesComponent } from './heroes/heroes.component';
+import { HeroDetailComponent } from './hero-detail/hero-detail.component';
+import { MessagesComponent } from './messages/messages.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from './in-memory-data.service';
+import { HeroSearchComponent } from './hero-search/hero-search.component';
 
-
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+@NgModule({
+  declarations: [
+    AppComponent,
+    HeroesComponent,
+    HeroDetailComponent,
+    MessagesComponent,
+    DashboardComponent,
+    HeroSearchComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
+export class AppModule { }
 
-export class AppComponent {
-  title = 'Tour of Heroes';
-  name = 'tianjian-sky';
-
-  ngOnInit(): void {
-    // 单播
-    let ob = of<Number[]>([1, 2, 3, 4, 5])
-    ob.subscribe(v => console.warn('发布：', v), err => console.error(err), () => console.warn('发布完成'))
-    ob.subscribe(v => console.warn('发布2：', v), err => console.error(err), () => console.warn('发布完成2'))
-    ob.subscribe(v => console.warn('发布3：', v), err => console.error(err), () => console.warn('发布完成3'))
-
-    // 多播
-    let s = new Subject(  )
-
-    s.subscribe({
-      next: (v) => console.log('observerA: ' + v)
-    });
-    s.subscribe({
-      next: (v) => console.log('observerB: ' + v)
-    });
-    s.next(1);
-    s.next(2);
-    s.next(3)
-
-  }
-}
 
 ```
